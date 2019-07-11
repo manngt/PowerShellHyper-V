@@ -1,0 +1,43 @@
+<#
+Descripción: Script para exportar virtuales en ejecución de un hyperv
+Autor: Orlando Pérez
+Fecha: 2019-07-10
+#>
+
+#Variales de incio
+$rootFolder = "O:\exports" #Se estable la unidad y la carpeta raiz
+$exportFolder = "O:\exports\vms"+(Get-Date).ToString('yyy-MM-dd') #Se establece la carpeta con fecha que contendra las exportaciones inicias en la fecha
+
+$rootFolderExists = Test-Path $rootFolder -PathType Container #Verifica que exista la carpeta raiz
+$exportFolderExists = Test-Path $exportFolder -PathType Container # verifica que exista la carpeta contenedora de las vms
+
+
+#Crea folder raiz si no existe
+
+if(!$rootFolderExists)
+{
+    New-Item -ItemType Directory -Path $rootFolder
+}
+
+if(!$exportFolderExists)
+{
+    New-Item -ItemType Directory -Path $exportFolder
+        
+}
+
+#Si se desea excluir vms
+
+$excludeVMs = 'SERVER1','SERVER2','SERVER3','SERVER4','SERVER5'
+
+#obtener virtuales en ejecucion sin considerar las excluidas
+
+$runningVMs = Get-VM | Where-Object {$_.State -eq 'Running'} |Where-Object {$_.Name -notin $excludeVMs}| Select -ExpandProperty "Name"
+
+
+#crear job de exportacion por vm
+
+foreach($vm in $runningVMs) {
+  get-vm $vm | export-vm -path $exportFolder -AsJob #crea tarea de exportacion para cada maquina obtenida
+  Start-Sleep -Seconds 1800 #Se establece tiempo entre cada tarea
+
+}
