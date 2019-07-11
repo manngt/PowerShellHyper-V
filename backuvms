@@ -5,7 +5,7 @@ Fecha: 2019-07-10
 #>
 
 #Variales de incio
-$rootFolder = "O:\exports" #Se estable la unidad y la carpeta raiz
+$rootFolder = "O:\exports" #Se establece la unidad y la carpeta raiz
 $exportFolder = "O:\exports\vms"+(Get-Date).ToString('yyy-MM-dd') #Se establece la carpeta con fecha que contendra las exportaciones inicias en la fecha
 
 $rootFolderExists = Test-Path $rootFolder -PathType Container #Verifica que exista la carpeta raiz
