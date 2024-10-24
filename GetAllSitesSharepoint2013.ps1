@@ -1,0 +1,1 @@
+﻿Get-SPSite -Limit All | Select Url,ContentDatabase | Format-Table -Wrap -AutoSize > F:\Output\ShowAllSCs.txt

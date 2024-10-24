@@ -1,0 +1,1 @@
+﻿Get-ADUser -Filter "enabled -eq 'true' -and initials -gt 0 " -Properties * | select initials,displayname, mail  | Export-CSV "c:\ps\ADUsersFebrero2023.csv"
